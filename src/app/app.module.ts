@@ -10,6 +10,7 @@ import { ErrorComponent } from './modules/error/error.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedComponentModule } from './components/shared-components.module';
 
+
 @NgModule({
   declarations: [
     AppComponent,
