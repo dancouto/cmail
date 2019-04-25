@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpClient, HttpResponseBase, HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { map, catchError } from "rxjs/operators";
+import { map, catchError, tap, delay } from "rxjs/operators";
 import { User } from 'src/app/models/user';
 import { Router } from '@angular/router';
 
@@ -26,7 +26,7 @@ export class CadastroComponent implements OnInit {
       //this.formCadastro.reset();
       const userData = new User(this.formCadastro.value);
 
-      this.httpClient.post('http://localhost:3200/users', userData).subscribe(
+      /*this.httpClient.post('http://localhost:3200/users', userData).subscribe(
         ()=>{
           console.log('cadastro com sucesso');
           this.formCadastro.reset();
@@ -36,7 +36,16 @@ export class CadastroComponent implements OnInit {
         (responseError: HttpErrorResponse) => {
           this.mensagensErro= responseError.error.body;
         }
-      );
+      );*/
+      this.httpClient.post('http://localhost:3200/users', userData).pipe(
+        tap(()=> this.formCadastro.reset()), delay(1000)
+      ).subscribe (
+        () => this.roteador.navigate([''])
+      ,
+      (responseError: HttpErrorResponse) => {
+        console.log(responseError.error.body);
+        this.mensagensErro= responseError.error.body;
+      });
     }
     else {
       //console.log('campos precisam ser preenchidos');
