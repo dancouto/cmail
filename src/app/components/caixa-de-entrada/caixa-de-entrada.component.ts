@@ -1,5 +1,6 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { EmailService } from 'src/app/services/email.service';
 
 @Component({
   selector: 'cmail-caixa-de-entrada',
@@ -15,6 +16,8 @@ export class CaixaDeEntradaComponent{
         assunto:'',
         conteudo:''
     }
+  
+    constructor(private emailService: EmailService){}
 
   get isNewEmailFormOpen():boolean{
     return this._isNewEmailFormOpen;
@@ -26,14 +29,22 @@ export class CaixaDeEntradaComponent{
 
   handleNewEmail(formEmail: NgForm){
     if(formEmail.invalid) return;
-    this.emailList.push(this.email)
+    //this.emailList.push(this.email)
 
-    this.email = {
+    /*this.email = {
       destinatario:'',
       assunto:'',
       conteudo:''
-    }
+    }*/
 
-    formEmail.reset();
+    //formEmail.reset();
+    this.emailService.enviar(this.email).subscribe(
+      emailApi => {
+        this.emailList.push(emailApi)
+        this.email = {destinatario: '', assunto: '', conteudo: ''}
+        formEmail.reset();
+      },
+      erro => console.error(erro)
+    )
   }
 }

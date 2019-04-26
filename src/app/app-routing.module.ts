@@ -1,14 +1,15 @@
 import { Routes, RouterModule } from "@angular/router";
-import { LoginComponent } from './modules/login/login.component';
 import { CaixaDeEntradaComponent } from './components/caixa-de-entrada/caixa-de-entrada.component';
 import { ErrorComponent } from './modules/error/error.component';
 import { NgModule } from '@angular/core';
+import { AuthGuard } from './guards/auth.guard';
 
 
 const cadast = 'src/app/modules/cadastro/cadastro.module#CadastroModule';
+const login = 'src/app/modules/login/login.modules#LoginModule';
 const routes: Routes=[
-    {path: '', component: LoginComponent},
-    {path: 'inbox', component:CaixaDeEntradaComponent},
+    {path: '', loadChildren: login},
+    {path: 'inbox', component:CaixaDeEntradaComponent, canActivate: [AuthGuard]},
     {path: 'cadastro', loadChildren: cadast},
     {path: '404', component:ErrorComponent},
     {path: '**', redirectTo: '404'}
@@ -22,6 +23,9 @@ const routes: Routes=[
     ],
     exports: [
         RouterModule
+    ],
+    providers: [
+        AuthGuard
     ]
 })
 export class ModuloRoteamento {}
