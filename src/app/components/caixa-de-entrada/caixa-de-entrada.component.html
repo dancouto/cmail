@@ -10,8 +10,8 @@
             <!--<li *ngFor="let email of emailList | filtroPorAssunto:termoParaFiltro">-->
               <!--<strong>Para:</strong> {{email.destinatario}} <br/>
               <strong>Assunto:</strong>{{email.assunto}}-->
-            <!--<li *ngFor="let email of filtrarEmailsPorAssunto()">-->
-            <li *ngFor="let email of emails$ | async">  
+            <li *ngFor="let email of filtrarEmailsPorAssunto()">
+            <!--<li *ngFor="let email of emails$ | async">-->  
               <cmail-list-item
                 [destinatario] = "email.destinatario"
                 [assunto] = "email.assunto"

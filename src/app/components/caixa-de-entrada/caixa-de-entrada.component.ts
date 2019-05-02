@@ -5,6 +5,7 @@ import { PageDataService } from 'src/app/services/page.service';
 import { HeaderDataService } from 'src/app/services/header.service';
 import { Observable } from 'rxjs';
 import { Email } from 'src/app/models/email';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'cmail-caixa-de-entrada',
@@ -31,7 +32,8 @@ export class CaixaDeEntradaComponent{
 
   constructor(private emailService: EmailService, 
     private pageDataService: PageDataService, 
-    private headerService: HeaderDataService){}
+    private headerService: HeaderDataService,
+    private rota: ActivatedRoute){}
 
   get isNewEmailFormOpen():boolean{
     return this._isNewEmailFormOpen;
@@ -64,7 +66,8 @@ export class CaixaDeEntradaComponent{
 
   ngOnInit(){
     //this.emailService.listar().subscribe(lista => {this.emailList = lista;});
-    this.emails$ = this.emailService.listar();
+    //this.emails$ = this.emailService.listar();
+    this.emailList = this.rota.snapshot.data.emails;
     this.pageDataService.defineTitulo('Caixa de Entrada - CMail');
     this.headerService.valorDoFiltro.subscribe(novoValor => this.termoParaFiltro = novoValor)
   }

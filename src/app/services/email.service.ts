@@ -22,7 +22,8 @@ export class EmailService {
             content: conteudo
         }
 
-        return this.http.post(this.api, emailParaApi, {headers: this.cabecalho}).pipe<Email>(
+        //return this.http.post(this.api, emailParaApi, {headers: this.cabecalho}).pipe<Email>(
+        return this.http.post(this.api, emailParaApi).pipe<Email>(
             map(
               (emailApi:any) => {
                   return new Email({
@@ -38,7 +39,8 @@ export class EmailService {
     }
 
     listar(){
-        return this.http.get(this.api, {headers: this.cabecalho})
+        //return this.http.get(this.api, {headers: this.cabecalho})
+        return this.http.get(this.api)
             .pipe<Email[]>(
                 map(
                 (response: any[]) => {

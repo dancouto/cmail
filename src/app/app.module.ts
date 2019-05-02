@@ -6,10 +6,11 @@ import { FormsModule } from '@angular/forms';
 import { CaixaDeEntradaComponent } from './components/caixa-de-entrada/caixa-de-entrada.component';
 import { ModuloRoteamento } from './app-routing.module';
 import { ErrorComponent } from './modules/error/error.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SharedComponentModule } from './components/shared-components.module';
 import { FormModule } from './components/cmail-form-group/cmail-form.module';
 import { FiltroPorAssunto } from './modules/caixa-de-entrada/filtro-por-assunto.pipe';
+import { RequestInterceptor } from './utils/Request.interceptor';
 
 
 
@@ -29,7 +30,11 @@ import { FiltroPorAssunto } from './modules/caixa-de-entrada/filtro-por-assunto.
     SharedComponentModule,
     FormModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: RequestInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
