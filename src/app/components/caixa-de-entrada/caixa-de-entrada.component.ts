@@ -3,6 +3,8 @@ import { NgForm } from '@angular/forms';
 import { EmailService } from 'src/app/services/email.service';
 import { PageDataService } from 'src/app/services/page.service';
 import { HeaderDataService } from 'src/app/services/header.service';
+import { Observable } from 'rxjs';
+import { Email } from 'src/app/models/email';
 
 @Component({
   selector: 'cmail-caixa-de-entrada',
@@ -19,6 +21,7 @@ import { HeaderDataService } from 'src/app/services/header.service';
 export class CaixaDeEntradaComponent{
     private _isNewEmailFormOpen:boolean = false;
     emailList = [];
+    emails$:Observable<Email[]>;
     email = {
         destinatario:'',
         assunto:'',
@@ -60,7 +63,8 @@ export class CaixaDeEntradaComponent{
   }
 
   ngOnInit(){
-    this.emailService.listar().subscribe(lista => {this.emailList = lista;});
+    //this.emailService.listar().subscribe(lista => {this.emailList = lista;});
+    this.emails$ = this.emailService.listar();
     this.pageDataService.defineTitulo('Caixa de Entrada - CMail');
     this.headerService.valorDoFiltro.subscribe(novoValor => this.termoParaFiltro = novoValor)
   }

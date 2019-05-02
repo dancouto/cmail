@@ -1,4 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
+import { Subject } from 'rxjs';
 
 
 @Injectable({
@@ -6,10 +7,12 @@ import { Injectable, EventEmitter } from '@angular/core';
 })
 export class PageDataService{
 
-    titulo = new EventEmitter<string>();
+    //titulo = new EventEmitter<string>();
+    titulo = new Subject<string>();
 
     defineTitulo(novoTitulo: string) {
         document.querySelector('title').textContent = novoTitulo;
-        this.titulo.emit(novoTitulo);
+        //this.titulo.emit(novoTitulo);
+        this.titulo.next(novoTitulo);
     }
 }

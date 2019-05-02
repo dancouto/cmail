@@ -24,7 +24,10 @@
 
           <cmail-form-group [campo]="formCadastro.get('username')">
             <input required type="text" name="username" formControlName="username" cmailFormField>
-              <span class="mdl-textfield__error">Informar um username é obrigatório</span>
+              
+
+              <span class="mdl-textfield__error" *ngIf="formCadastro.get('username').errors?.required">Informar um username é obrigatório</span>
+              <span class="mdl-textfield__error" *ngIf="formCadastro.get('username').errors?.lowerCase">O Username deve ser minusculo</span>
           </cmail-form-group>
 
           <cmail-form-group [campo]="formCadastro.get('senha')">

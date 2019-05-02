@@ -5,6 +5,7 @@ import { map, catchError, tap, delay } from "rxjs/operators";
 import { User } from 'src/app/models/user';
 import { Router } from '@angular/router';
 import { PageDataService } from 'src/app/services/page.service';
+import { CustonValidators } from 'src/app/utils/validators';
 
 @Component({
   selector: 'app-cadastro',
@@ -15,9 +16,9 @@ export class CadastroComponent implements OnInit {
   formCadastro = new FormGroup({
     nome: new FormControl('', [Validators.required, Validators.minLength(3)]),
     telefone: new FormControl('', [Validators.required, Validators.pattern('[0-9]{4}-?[0-9]{4}[0-9]?')]),
-    username: new FormControl('', [Validators.required]),
+    username: new FormControl('', [Validators.required,this.custonValidators.lowerCaseValidator]),
     senha: new FormControl('', [Validators.required]),
-    avatar: new FormControl('', [Validators.required], this.validaImagem.bind(this))
+    avatar: new FormControl('', [Validators.required], this.custonValidators.imageValidator())
   });
   mensagensErro: any;
 
@@ -81,7 +82,10 @@ export class CadastroComponent implements OnInit {
     )
   }
 
-  constructor( private httpClient: HttpClient, private roteador: Router, private pageDataService: PageDataService) { }
+  constructor( private httpClient: HttpClient, 
+    private roteador: Router, 
+    private pageDataService: PageDataService, 
+    private custonValidators: CustonValidators) { }
 
   ngOnInit() {
     this.pageDataService.defineTitulo('Pagina de Cadastro - CMail');
