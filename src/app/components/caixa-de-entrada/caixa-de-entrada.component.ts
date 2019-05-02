@@ -1,11 +1,19 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { EmailService } from 'src/app/services/email.service';
+import { PageDataService } from 'src/app/services/page.service';
+import { HeaderDataService } from 'src/app/services/header.service';
 
 @Component({
   selector: 'cmail-caixa-de-entrada',
   templateUrl: './caixa-de-entrada.component.html',
-  styleUrls: []
+  styles: [` 
+          ul, li {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+          }
+          `]
 })
 
 export class CaixaDeEntradaComponent{
@@ -16,8 +24,11 @@ export class CaixaDeEntradaComponent{
         assunto:'',
         conteudo:''
     }
-  
-    constructor(private emailService: EmailService){}
+  termoParaFiltro: any = '';
+
+  constructor(private emailService: EmailService, 
+    private pageDataService: PageDataService, 
+    private headerService: HeaderDataService){}
 
   get isNewEmailFormOpen():boolean{
     return this._isNewEmailFormOpen;
@@ -46,5 +57,33 @@ export class CaixaDeEntradaComponent{
       },
       erro => console.error(erro)
     )
+  }
+
+  ngOnInit(){
+    this.emailService.listar().subscribe(lista => {this.emailList = lista;});
+    this.pageDataService.defineTitulo('Caixa de Entrada - CMail');
+    this.headerService.valorDoFiltro.subscribe(novoValor => this.termoParaFiltro = novoValor)
+  }
+
+  handleRemoveEmail(eventoVaiRemover, emailId){
+    console.log('Clicou no Item');
+    if (eventoVaiRemover.status === 'removing'){
+      this.emailService.deletar(emailId).subscribe(
+        res => {
+          console.log(res);
+          this.emailList = this.emailList.filter(email => email.id != emailId);
+        },
+        err => console.log(err)
+      );
+    }
+  }
+
+  filtrarEmailsPorAssunto(){
+    const termoParaFiltroEmMinusculo = this.termoParaFiltro.toLowerCase();
+
+    return this.emailList.filter( email => {
+      const assunto = email.assunto.toLowerCase();
+      return assunto.includes(termoParaFiltroEmMinusculo);
+    })
   }
 }

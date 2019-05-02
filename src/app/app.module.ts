@@ -9,14 +9,17 @@ import { ErrorComponent } from './modules/error/error.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedComponentModule } from './components/shared-components.module';
 import { FormModule } from './components/cmail-form-group/cmail-form.module';
-import { LoginModule } from './modules/login/login.modules';
+import { FiltroPorAssunto } from './modules/caixa-de-entrada/filtro-por-assunto.pipe';
+
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
     CaixaDeEntradaComponent,
-    ErrorComponent
+    ErrorComponent,
+    FiltroPorAssunto
   ],
   imports: [
     BrowserModule, 

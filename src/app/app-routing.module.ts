@@ -7,10 +7,12 @@ import { AuthGuard } from './guards/auth.guard';
 
 const cadast = 'src/app/modules/cadastro/cadastro.module#CadastroModule';
 const login = 'src/app/modules/login/login.modules#LoginModule';
+const detalhe = 'src/app/modules/detalhe-email/detalheEmail.module#DetalheEmailModule';
 const routes: Routes=[
     {path: '', loadChildren: login},
     {path: 'inbox', component:CaixaDeEntradaComponent, canActivate: [AuthGuard]},
     {path: 'cadastro', loadChildren: cadast},
+    {path: 'detalheEmail/:id', loadChildren: detalhe},
     {path: '404', component:ErrorComponent},
     {path: '**', redirectTo: '404'}
 ];

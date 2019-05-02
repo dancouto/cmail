@@ -4,6 +4,7 @@ import { HttpClient, HttpResponseBase, HttpResponse, HttpErrorResponse } from '@
 import { map, catchError, tap, delay } from "rxjs/operators";
 import { User } from 'src/app/models/user';
 import { Router } from '@angular/router';
+import { PageDataService } from 'src/app/services/page.service';
 
 @Component({
   selector: 'app-cadastro',
@@ -80,9 +81,10 @@ export class CadastroComponent implements OnInit {
     )
   }
 
-  constructor( private httpClient: HttpClient, private roteador: Router) { }
+  constructor( private httpClient: HttpClient, private roteador: Router, private pageDataService: PageDataService) { }
 
   ngOnInit() {
+    this.pageDataService.defineTitulo('Pagina de Cadastro - CMail');
   }
 
 }
